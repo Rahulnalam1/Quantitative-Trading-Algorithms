@@ -3,9 +3,9 @@ import threading
 import time
 import datetime
 
-API_KEY = "PKXKRKJRJT5LU1E5AIEJ"
-API_SECRET = "A5XrhvpLEQPGHYmr9vrWjaFcKHjWwppEPAPUVacC"
-APCA_API_BASE_URL = "https://paper-api.alpaca.markets"
+API_KEY = 
+API_SECRET = 
+APCA_API_BASE_URL =
 
 
 #Creating a longShort python class (constructor)
@@ -34,8 +34,7 @@ class longShort:
       self.shortAmount = 0
       self.timeToClose = None
 
-  # When the run method is called, it is going to cancel any orders that are currently
-  #existing
+  # When the run method is called, it is going to cancel any orders that are currently       existing
   # so I can increase my buying power to the max limit. This is done by looking at the orders
   #iterating through each order and cancelling the order identification.
   def run(self):
@@ -43,12 +42,22 @@ class longShort:
     for order in orders:
       self.alpaca.cancel_order(order.id)
 
-    # Need to wait for the market to open, this function will count down second by second        till the market is open
+    # Need to wait for the market to open, this function will count down second by second till the market is open
 
     print("Awaiting for today's market start... ")
-    alpacaMA = threading.Thread(target=self.awaitMarketOpen)  
+    alpacaMA = threading.Thread(target=self.awaitMarketOpen)
     #alpaca api checking time till market is opened.
     alpacaMA.start()
     alpacaMA.join()
     print("Today's Market has Officially Opened!!")
     #Market opens at 9:30 EST every weekday and closed on weekends
+    #This also means the portfolio rebalances every minute so data is new, will either go long or short on stocks based on the percentage change from the previous few minutes.
+
+    #Execution of the Trading Algo
+
+    while True: 
+      
+      
+      
+
+    
