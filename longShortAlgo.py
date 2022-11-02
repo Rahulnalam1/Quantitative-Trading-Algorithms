@@ -29,13 +29,13 @@ class longShort:
       self.qLong = None
       self.adjustedQLong = None
       self.adjustedQShort = None
-      self.blacklist = set()
-      self.longAmount = 0
-      self.shortAmount = 0
+      self.blacklistPosition = set()
+      self.stockLongVal = 0
+      self.stockShortVal = 0
       self.timeToClose = None
 
-  # When the run method is called, it is going to cancel any orders that are currently       existing
-  # so I can increase my buying power to the max limit. This is done by looking at the orders
+  # When the run method is called, it is going to cancel any orders that are existing
+  # so I can increase my buying power to the max limit. This is done by looking orders
   #iterating through each order and cancelling the order identification.
   def run(self):
     orders = self.alpaca.list_orders(status="open")
@@ -66,8 +66,52 @@ class longShort:
       self.timeToClose = marketClosingTime - currentTime
 
 
-      if (self.timeToClose < (60 * 10)): #closing all positions 10 minutes before the market closes (test with 10, 15, and 20 minutes to see what gets a better result.)
+      if (self.timeToClose < (60 * 10)): #closing all positions 10 minutes before the market closes (test with 10, 15, and 20 minutes to see what gets a better result.) 
+        #Also no trades will be made in the last ten minutes before close. 
         print("The market is closing in ten minutes, exercising/closing all positions")
+
+        stockPositions = self.alpaca.list_positions()
+        for stockPosition in stockPositions: 
+          if stockPosition.side == 'long':
+            orderSide = 'sell'
+          else:
+            orderSide = 'buy'
+
+          stockQuantity = abs(int(float(stockPosition.stockQuantity)))
+          rSubmitOrder = []
+          submittOrder = threading.Thread
+          (target = self.submitOrder(stockQuantity, stockPosition.symbol, 
+                                     orderSide, rSubmitOrder))
+          submittOrder.start()
+          submittOrder.join()
+          
+
+          #Remember, run this script everyday after the market closes to see results.
+
+          print("Snoozing for the next ten minutes until market closes.")
+          time.sleep(60 * 10)
+      else:
+        #Need to rebalance portfolio otherwise. 
+        targetRebalance = threading.Thread(target = self.rebalance)
+        targetRebalance.start()
+        targetRebalance.join()
+        time.sleep(60)
+
+       # If you keep this running it will run till the market open.
+
+        
+        
+        
+          
+          
+          
+            
+            
+            
+          
+          
+        
+
         
       
 
