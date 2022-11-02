@@ -56,6 +56,22 @@ class longShort:
     #Execution of the Trading Algo
 
     while True: 
+
+      #Need to figure out when the market will close to efficiently exercise trades. 
+      alpacaClock = self.alpaca.get_clock()
+      marketClosingTime = alpacaClock.next_close.replace()
+      (tzinfo = datetime.timezone.est).timestamp()
+      currentTime = alpacaClock.timestamp.replace()
+      (tzinfo = datetime.timezone.est).timestamp()
+      self.timeToClose = marketClosingTime - currentTime
+
+
+      if (self.timeToClose < (60 * 10)): #closing all positions 10 minutes before the market closes (test with 10, 15, and 20 minutes to see what gets a better result.)
+        print("The market is closing in ten minutes, exercising/closing all positions")
+        
+      
+
+    
       
       
       
