@@ -3,9 +3,9 @@ import threading
 import time
 import datetime
 
-API_KEY = 
-API_SECRET = 
-APCA_API_BASE_URL =
+API_KEY = 'PKLOXCYTX7XTOB9R9BS6'
+API_SECRET = 'G1XXZTQtuyHXo6OVPcg5iIZkWB9cUFpPPEyJX8fq'
+APCA_API_BASE_URL = 'https://paper-api.alpaca.markets'
 
 
 #Creating a longShort python class (constructor)
@@ -59,10 +59,8 @@ class longShort:
 
       #Need to figure out when the market will close to efficiently exercise trades. 
       alpacaClock = self.alpaca.get_clock()
-      marketClosingTime = alpacaClock.next_close.replace()
-      (tzinfo = datetime.timezone.est).timestamp()
-      currentTime = alpacaClock.timestamp.replace()
-      (tzinfo = datetime.timezone.est).timestamp()
+      marketClosingTime = alpacaClock.next_close.replace(tzinfo = datetime.timezone.utc).timestamp()
+      currentTime = alpacaClock.timestamp.replace(tzinfo = datetime.timezone.utc).timestamp()
       self.timeToClose = marketClosingTime - currentTime
 
 
@@ -79,9 +77,7 @@ class longShort:
 
           stockQuantity = abs(int(float(stockPosition.stockQuantity)))
           rSubmitOrder = []
-          submittOrder = threading.Thread
-          (target = self.submitOrder(stockQuantity, stockPosition.symbol, 
-                                     orderSide, rSubmitOrder))
+          submittOrder = threading.Thread(target = self.submitOrder(stockQuantity, stockPosition.symbol, orderSide, rSubmitOrder))
           submittOrder.start()
           submittOrder.join()
           
@@ -98,14 +94,6 @@ class longShort:
         time.sleep(60)
 
        # If you keep this running it will run till the market open.
-
-        
-        
-        
-          
-          
-          
-            
             
             
           
