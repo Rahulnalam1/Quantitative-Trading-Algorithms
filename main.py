@@ -55,21 +55,26 @@ class longShort:
 
     #Execution of the Trading Algo
 
-    while True: 
+    while True:
 
-      #Need to figure out when the market will close to efficiently exercise trades. 
+      #Need to figure out when the market will close to efficiently exercise trades.
       alpacaClock = self.alpaca.get_clock()
-      marketClosingTime = alpacaClock.next_close.replace(tzinfo = datetime.timezone.utc).timestamp()
-      currentTime = alpacaClock.timestamp.replace(tzinfo = datetime.timezone.utc).timestamp()
+      marketClosingTime = alpacaClock.next_close.replace(
+        tzinfo=datetime.timezone.utc).timestamp()
+      currentTime = alpacaClock.timestamp.replace(
+        tzinfo=datetime.timezone.utc).timestamp()
       self.timeToClose = marketClosingTime - currentTime
 
-
-      if (self.timeToClose < (60 * 10)): #closing all positions 10 minutes before the market closes (test with 10, 15, and 20 minutes to see what gets a better result.) 
-        #Also no trades will be made in the last ten minutes before close. 
-        print("The market is closing in ten minutes, exercising/closing all positions")
+      if (
+          self.timeToClose < (60 * 10)
+      ):  #closing all positions 10 minutes before the market closes (test with 10, 15, and 20 minutes to see what gets a better result.)
+        #Also no trades will be made in the last ten minutes before close.
+        print(
+          "The market is closing in ten minutes, exercising/closing all positions"
+        )
 
         stockPositions = self.alpaca.list_positions()
-        for stockPosition in stockPositions: 
+        for stockPosition in stockPositions:
           if stockPosition.side == 'long':
             orderSide = 'sell'
           else:
@@ -77,35 +82,31 @@ class longShort:
 
           stockQuantity = abs(int(float(stockPosition.stockQuantity)))
           rSubmitOrder = []
-          submittOrder = threading.Thread(target = self.submitOrder(stockQuantity, stockPosition.symbol, orderSide, rSubmitOrder))
+          submittOrder = threading.Thread(target=self.submitOrder(
+            stockQuantity, stockPosition.symbol, orderSide, rSubmitOrder))
           submittOrder.start()
           submittOrder.join()
-          
 
           #Remember, run this script everyday after the market closes to see results.
 
           print("Snoozing for the next ten minutes until market closes.")
           time.sleep(60 * 10)
       else:
-        #Need to rebalance portfolio otherwise. 
-        targetRebalance = threading.Thread(target = self.rebalance)
+        #Need to rebalance portfolio otherwise.
+        targetRebalance = threading.Thread(target=self.rebalance)
         targetRebalance.start()
         targetRebalance.join()
         time.sleep(60)
 
-       # If you keep this running it will run till the market open.
+        # If you keep this running it will run till the market open.
+
+        def waitForMarketOpen(self):
+          marketIsOpen = self.alpaca.get_clock().is_open
+          while (not marketIsOpen):
+            clock = self.alpaca.get_clock()
+            marketOpeningTime = clock.next_open.replace(
+              tzinfo=datetime.timezone.utc).timestamp()
+            currentTime = clock.timestamp.replace(
+              tzinfo=datetime.timezone.utc).timestamp()
+            marketOpeningTime = int((marketOpeningTime - currentTime) / 60)
             
-            
-          
-          
-        
-
-        
-      
-
-    
-      
-      
-      
-
-    
