@@ -101,7 +101,8 @@ class longShort:
         # If you keep this running it will run till the market open.
 
         def waitForMarketOpen(self):
-          marketIsOpen = self.alpaca.get_clock().is_open
+          marketIsOpen = self.alpaca.get_clock(
+          ).is_open  #method get_clock to get time
           while (not marketIsOpen):
             clock = self.alpaca.get_clock()
             marketOpeningTime = clock.next_open.replace(
@@ -109,4 +110,18 @@ class longShort:
             currentTime = clock.timestamp.replace(
               tzinfo=datetime.timezone.utc).timestamp()
             marketOpeningTime = int((marketOpeningTime - currentTime) / 60)
-            
+            print(str(marketOpeningTime) + "minutes till market is open.")
+            time.sleep(60)
+            marketIsOpen = self.alpaca.get_clock().is_open
+
+        # Need to create a rebalance method to determine when the positions are held and how long they should be held for
+        def rebalance(self):
+
+          reBalance = threading.Thread(target=self.reBalance)
+          reBalance.start
+          reBalance.join
+
+          #Need to clean pre-existing orders
+          orders = self.alpaca.list_orders(status="open")
+          for order in orders:
+            self.alpaca.cancel_order(order.id)
