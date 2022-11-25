@@ -3,9 +3,9 @@ import threading
 import time
 import datetime
 
-API_KEY = 'PKLOXCYTX7XTOB9R9BS6'
-API_SECRET = 'G1XXZTQtuyHXo6OVPcg5iIZkWB9cUFpPPEyJX8fq'
-APCA_API_BASE_URL = 'https://paper-api.alpaca.markets'
+API_KEY = 
+API_SECRET = 
+APCA_API_BASE_URL = 
 
 
 #Creating a longShort python class (constructor)
@@ -17,7 +17,7 @@ class longShort:
     rahulsStockUniverse = [
       'META', 'ATVI', 'AMZN', 'U', 'AAPL', 'SQ', 'MTTR', 'AMD', 'GOOG', 'VZ',
       'TMUS', 'RIVN', 'SPOT', 'NFLX', 'CRM', 'BAC', 'GS', 'BLK', 'TSLA',
-      'INTC', 'T', 'NVDA', 'SHOP', 'CMCSA', 'DIS', 'VMW', 'AVGO'
+      'INTC', 'T', 'NVDA', 'SHOP', 'CMCSA', 'DIS', 'VMW', 'AVGO' 'BBWI', 'RIOT,'
     ]
 
     #Variables to use later on.
@@ -125,3 +125,12 @@ class longShort:
           orders = self.alpaca.list_orders(status="open")
           for order in orders:
             self.alpaca.cancel_order(order.id)
+
+            print("Taking Long Position in: " str(self.long))
+            print("Taking Short Position in: " str(self.short))
+            #Algo will show the positions that I am taking long and what I am taking short.                So, it removes the positions that are no longer in the short nor long list of                  stocks and then makes a new list of positions that don't need to change.
+
+            
+
+            
+
