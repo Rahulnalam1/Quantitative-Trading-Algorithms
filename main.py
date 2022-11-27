@@ -135,6 +135,15 @@ class longShort:
             self.blacklist.clear()
 
             for position in positions: 
+              if(self.long.count(position.symbol) == 0):  # The position is not on the long list
+                if(self.short.count(position.symnol) == 0):  # The position is not on the short list
+                  if(position.side == "long"): 
+                    side = "sell"
+                  else: 
+                    side = "buy"
+                    
+                    
+              
               
 
             
