@@ -130,7 +130,17 @@ class longShort:
             print("Taking Short Position in: " str(self.short))
             #Algo will show the positions that I am taking long and what I am taking short.                So, it removes the positions that are no longer in the short nor long list of                  stocks and then makes a new list of positions that don't need to change.
 
+            executed = [[], []]
+            positions = self.alpaca.list_positions()
+            self.blacklist.clear()
+
+            for position in positions: 
+              
+
             
 
             
+            
+
+            #left at line 108 
 
